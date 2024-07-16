@@ -82,6 +82,7 @@ function CreateBook() {
         <Link to="/">Cancel</Link>
       </form>
       <ToastContainer/>
+      <Link to="/">Back to Books List</Link>
     </div>
   );
 }
