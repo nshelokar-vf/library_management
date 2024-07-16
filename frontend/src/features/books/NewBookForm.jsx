@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { API_URL } from "../../constants";
 
 function NewPostForm() {
@@ -69,6 +69,7 @@ function NewPostForm() {
           <button type="submit">Create Title</button>
         </div>
       </form>
+      <Link to="/">Back to Books List</Link>
     </div>
   );
 }

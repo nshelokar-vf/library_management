@@ -53,6 +53,7 @@ return (
               <td style={{ padding: '10px' }}>{book.author}</td>
               <td style={{ padding: '10px' }}>{book.description}</td>
               <td><Link to={`/books/${book.id}`}>View</Link></td>
+              
             
             </tr>
           ))}
