@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { API_URL } from "../../constants";
+import './NewBook.css'
 
 function NewPostForm() {
   const [title, setTitle] = useState("");
@@ -34,10 +35,12 @@ function NewPostForm() {
   };
 
   return (
-    <div>
-      <h5>Create a New Title</h5>
-      <form onSubmit={handleSubmit}>
-        <div>
+
+
+    <div className="form-container">
+      <h3>Create a New Title</h3>
+      <form onSubmit={handleSubmit} className="title-form">
+        <div className="form-group">
           <label htmlFor="titleInput">Title:</label>
           <input
             id="titleInput"
@@ -47,16 +50,16 @@ function NewPostForm() {
             required
           />
         </div>
-        <div>
+        <div className="form-group">
           <label htmlFor="authorInput">Author:</label>
-          <textarea
+          <input
             id="authorInput"
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
             required
           />
         </div>
-        <div>
+        <div className="form-group">
           <label htmlFor="descrInput">Description:</label>
           <textarea
             id="descrInput"
@@ -65,10 +68,14 @@ function NewPostForm() {
             required
           />
         </div>
-        <div>
-          <button type="submit">Create Title</button>
+        <div className="form-group">
+          <button type="submit" className="submit-button">Create Title</button>
         </div>
+
+        <Link to="/">Cancel</Link>
       </form>
+
+      
     </div>
   );
 }
