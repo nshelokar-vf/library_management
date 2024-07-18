@@ -19,12 +19,18 @@ const Login = ({setCurrUser, setShow}) =>{
         const data=await response.json()
         if(!response.ok) throw data.error
         
-        console.log(response.headers.get("Authorization"))
-        localStorage.setItem("token", response.headers.get("Authorization"))
-        window.localStorage.setItem("isLoggedIn",true)
-        setCurrUser(data)        
+        const token = response.headers.get("Authorization");
+        if (token) {
+        console.log("Received token:", token);
+        localStorage.setItem("token", token);
+        localStorage.setItem("isLoggedIn", true);
+        setCurrUser(data);
+        setShow(false); 
+      } else {
+        console.error("Token not found in the response headers.");
+      }      
     }catch(error){
-       console.log("error", error)
+       console.log("Loginerror", error)
     }
 }
   const handleSubmit=e=>{
@@ -58,10 +64,10 @@ const Login = ({setCurrUser, setShow}) =>{
         </div>
         <input type='submit' value="Login" className="submit-button" />
       </form>
-      
       <div className="login-link">
-      Not registered yet? <Link to="/">Login</Link> here.
+        Not registered yet? <a href="#signup" onClick={handleClick}>Sign up</a>.
       </div>
+      
     </div>
   )
 }

@@ -10,8 +10,19 @@ function BookDetails() {
 
   useEffect(() => {
     const fetchCurrentBook = async () => {
+      const token = localStorage.getItem('token'); 
+      if (!token) {
+        throw new Error('Authentication token not found');
+      }
+
       try {
-        const response = await fetch(`${API_URL}/${id}`)
+        const response = await fetch(`${API_URL}/${id}`,{
+          headers: {
+            'Authorization':token,
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          }
+        })
         console.log('Response status:', response.status);
         if (response.ok) {
           const json = await response.json()

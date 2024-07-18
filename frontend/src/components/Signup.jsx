@@ -36,7 +36,7 @@ const Signup=({setCurrUser, setShow})=>{
         e.target.reset()
     }
     const handleClick=e=>{
-        e.preventDefault()
+        // e.preventDefault()
         setShow(true)
     }
     return(

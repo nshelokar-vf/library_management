@@ -6,7 +6,7 @@ import AppRoutes from "./AppRoutes";
 import NavBar from "./NavBar";
 import { useEffect, useState } from "react";
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
-import NewBookForm from "../features/books/NewBookForm"
+import NewPostForm from "../features/books/NewBookForm"
 import BookDetails from "../features/books/BookDetails"
 import BookList from "../features/books/BookList"
 
@@ -18,15 +18,13 @@ const User = () => {
     }, []);
     const [show, setShow]=useState(true)
 
-
     if(isUserLoggedIn) 
         return (
             <Router>
-               
                 <NavBar/>
                 <Routes>
                     <Route path="/" element={<BookList/>}/>
-                    <Route path="/new" element={<NewBookForm/>}/>
+                    <Route path="/new" element={<NewPostForm/>}/>
                     <Route path="books/:id" element={<BookDetails/>}/>
                 </Routes>
                 <Logout setCurrUser={setUserLoggedIn}/>

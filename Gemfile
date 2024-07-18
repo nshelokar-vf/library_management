@@ -39,6 +39,8 @@ gem 'devise'
 
 gem 'devise-jwt'
 
+gem 'pry'
+
 # 'dotenv-rails' is for storing secret key in ENV file
 gem 'dotenv-rails', groups: [:development, :test]
 

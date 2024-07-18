@@ -9,9 +9,21 @@ function BookList() {
 
   useEffect(() => {
     async function loadBooks() {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setError("You need to sign in or sign up before continuing.-nupur");
+        setLoading(false);
+        return;
+      }
       try {
         console.log('Fetching books from:', API_URL);
-        const response = await fetch(`${API_URL}`);
+        console.log('Token:', token);
+        const response = await fetch(`${API_URL}`,{
+          headers:{
+            "Content-Type": "application/json",
+            "Authorization": token
+          }
+        });
         console.log('Response status:', response.status);
         if (response.ok) {
           const json = await response.json();
@@ -45,7 +57,7 @@ return (
             <th style={{ padding: '10px', textAlign: 'left' }}>Description</th>
           </tr>
         </thead>
-        <tbody>
+        {/* <tbody>
           {books.map((book) => (
             <tr key={book.id} style={{ borderBottom: '1px solid #ddd' }}>
               <td style={{ padding: '10px' }}>{book.id}</td>
@@ -56,7 +68,29 @@ return (
             
             </tr>
           ))}
-        </tbody>
+        </tbody> */}
+        <tbody>
+          {books.length === 0 ? (
+            <tr>
+              <td colSpan={5} style={{ textAlign: 'center', padding: '10px' }}>
+                No books available.
+              </td>
+            </tr>
+          ) : (
+            books.map((book) => (
+              <tr key={book.id} style={{ borderBottom: '1px solid #ddd' }}>
+                <td style={{ padding: '10px' }}>{book.id}</td>
+                <td style={{ padding: '10px' }}>{book.title}</td>
+                <td style={{ padding: '10px' }}>{book.author}</td>
+                <td style={{ padding: '10px' }}>{book.description}</td>
+                <td>
+                  <Link to={`/books/${book.id}`}>View</Link>
+                </td>
+              </tr>
+            ))
+          )}
+</tbody>
+
       </table>
     </div>
   );
