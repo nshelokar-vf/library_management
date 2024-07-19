@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from 'react-router-dom';
 import { API_URL } from "../../constants";
 
-function NewPostForm() {
+function CreateBook() {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [description, setDescription] = useState("");
@@ -11,7 +11,6 @@ function NewPostForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const postData = { title,author, description };
-
     try {
       const response = await fetch(`${API_URL}`, {
         method: "POST",
@@ -24,9 +23,6 @@ function NewPostForm() {
       if (response.ok) {
         const { id } = await response.json();
         navigate(`/books/${id}`);
-      } else {
-        const errorText = await response.text();
-        console.log("An error occurred:", errorText);
       }
     } catch (error) {
       console.error("An error occurred:", error);
@@ -69,9 +65,9 @@ function NewPostForm() {
           <button type="submit">Create Title</button>
         </div>
       </form>
-      <Link to="/">Back to Books List</Link>
+      <Link to="/">Go to Dashboard</Link>
     </div>
   );
 }
 
-export default NewPostForm;
+export default CreateBook;
