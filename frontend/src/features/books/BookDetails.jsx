@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
-import { API_URL } from '../../constants'
+import { useEffect, useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { API_URL } from '../../constants';
 
 function BookDetails() {
-  const [title, setTitle] = useState(null)
-  const [author, setAuthor] = useState(null)
-  const [description, setDescription] = useState(null)
-  const { id } = useParams()
+  const [title, setTitle] = useState(null);
+  const [author, setAuthor] = useState(null);
+  const [description, setDescription] = useState(null);
+  const { id } = useParams();
 
   useEffect(() => {
     const fetchCurrentBook = async () => {
@@ -35,13 +37,11 @@ function BookDetails() {
           throw new Error(`Error ${response.status}: ${errorText}`);
         }
       } catch (e) {
-        console.log("An error occurred", e)
+        toast.error(`Login error: ${e.message || e}`);
       }
     }
     fetchCurrentBook()
   }, [id])
-
-  if (!title) return <h3>Loading...</h3>
 
   return (
     <div>
@@ -49,6 +49,7 @@ function BookDetails() {
       <p>Author: {author}</p>
       <p>Description: {description}</p>
       <Link to="/">Back to Books List</Link>
+      <ToastContainer />
     </div>
   )
 }

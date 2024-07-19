@@ -1,14 +1,12 @@
-//  frontend/src/components/User.js
 import Signup from "./Signup";
-import Login from './Login'
-import Logout from './Logout'
-import AppRoutes from "./AppRoutes";
+import Login from './Login';
+import Logout from './Logout';
 import NavBar from "./NavBar";
 import { useEffect, useState } from "react";
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
-import NewPostForm from "../features/books/NewBookForm"
-import BookDetails from "../features/books/BookDetails"
-import BookList from "../features/books/BookList"
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import CreateBook from "../features/books/CreateBook";
+import BookDetails from "../features/books/BookDetails";
+import BookList from "../features/books/BookList";
 
 const User = () => {
    const [isUserLoggedIn, setUserLoggedIn] = useState(false);
@@ -16,15 +14,14 @@ const User = () => {
         const isLoggedIn = localStorage.getItem('isLoggedIn');
         setUserLoggedIn(isLoggedIn);
     }, []);
-    const [show, setShow]=useState(true)
-
+    const [show, setShow]=useState(true);
     if(isUserLoggedIn) 
         return (
             <Router>
                 <NavBar/>
                 <Routes>
                     <Route path="/" element={<BookList/>}/>
-                    <Route path="/new" element={<NewPostForm/>}/>
+                    <Route path="/new" element={<CreateBook/>}/>
                     <Route path="books/:id" element={<BookDetails/>}/>
                 </Routes>
                 <Logout setCurrUser={setUserLoggedIn}/>
@@ -40,4 +37,5 @@ const User = () => {
         </div>
     )
 }
+
 export default User

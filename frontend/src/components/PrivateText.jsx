@@ -1,6 +1,6 @@
-import { useState,useEffect } from "react"
+import { useState,useEffect } from "react";
 const PrivateText=({currUser})=>{
-    const [message, setMessage]=useState(null)
+    const [message, setMessage]=useState(null);
     const getText=async ()=>{
         try {
             const response=await fetch("http://localhost:3000/private/test", {
@@ -10,20 +10,22 @@ const PrivateText=({currUser})=>{
                     "authorization": localStorage.getItem("token")
                 }
             })
-            const data=await response.json()
-            if(!response.ok) throw data.error
-            setMessage(data.message)
+            const data=await response.json();
+            if(!response.ok) throw data.error;
+            setMessage(data.message);
         }
         catch(error){
-            console.log("error", error)
-            setMessage(error)
+            console.log("error", error);
+            setMessage(error);
         }
     }
+
     useEffect(()=>{
-        getText()
+        getText();
     },[currUser])
     return(
         <div>{message}</div>
     )
 }
+
 export default PrivateText

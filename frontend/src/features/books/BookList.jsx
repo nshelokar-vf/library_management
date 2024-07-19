@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { API_URL } from '../../constants';
 import { Link } from 'react-router-dom';
+import './BookList.css';
 
 function BookList() {
   const [books, setBooks] = useState([]);
@@ -16,26 +17,21 @@ function BookList() {
         return;
       }
       try {
-        console.log('Fetching books from:', API_URL);
-        console.log('Token:', token);
         const response = await fetch(`${API_URL}`,{
           headers:{
             "Content-Type": "application/json",
             "Authorization": token
           }
         });
-        console.log('Response status:', response.status);
         if (response.ok) {
-          const json = await response.json();
-          console.log('Response JSON:', json);
-          setBooks(json);
+          const book = await response.json();
+          setBooks(book);
         } else {
           const errorText = await response.text();
           throw new Error(`Error ${response.status}: ${errorText}`);
         }
       } catch (e) {
         setError("An error occurred...");
-        console.log("An error occurred", e);
       } finally {
         setLoading(false);
       }
@@ -43,56 +39,38 @@ function BookList() {
     loadBooks();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
-
 return (
-    <div style={{ padding: '20px' }}>
-      <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '20px' }}>
-        <thead>
-          <tr style={{ backgroundColor: '#f2f2f2', borderBottom: '1px solid #ddd' }}>
-            <th style={{ padding: '10px', textAlign: 'left' }}>ID</th>
-            <th style={{ padding: '10px', textAlign: 'left' }}>Title</th>
-            <th style={{ padding: '10px', textAlign: 'left' }}>Author</th>
-            <th style={{ padding: '10px', textAlign: 'left' }}>Description</th>
+  <div className="table-container">
+  <table className="table">
+    <thead>
+      <tr className="table-header">
+        <th>ID</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      {books.length === 0 ? (
+        <tr className="table-empty-row">
+          <td colSpan={5}>
+            No books available.
+          </td>
+        </tr>
+      ) : (
+        books.map((book) => (
+          <tr key={book.id} className="table-row">
+            <td>{book.id}</td>
+            <td>{book.title}</td>
+            <td>{book.author}</td>
+            <td>{book.description}</td>
+            <td><Link to={`/books/${book.id}`}>View</Link></td>
           </tr>
-        </thead>
-        {/* <tbody>
-          {books.map((book) => (
-            <tr key={book.id} style={{ borderBottom: '1px solid #ddd' }}>
-              <td style={{ padding: '10px' }}>{book.id}</td>
-              <td style={{ padding: '10px' }}>{book.title}</td>
-              <td style={{ padding: '10px' }}>{book.author}</td>
-              <td style={{ padding: '10px' }}>{book.description}</td>
-              <td><Link to={`/books/${book.id}`}>View</Link></td>
-            
-            </tr>
-          ))}
-        </tbody> */}
-        <tbody>
-          {books.length === 0 ? (
-            <tr>
-              <td colSpan={5} style={{ textAlign: 'center', padding: '10px' }}>
-                No books available.
-              </td>
-            </tr>
-          ) : (
-            books.map((book) => (
-              <tr key={book.id} style={{ borderBottom: '1px solid #ddd' }}>
-                <td style={{ padding: '10px' }}>{book.id}</td>
-                <td style={{ padding: '10px' }}>{book.title}</td>
-                <td style={{ padding: '10px' }}>{book.author}</td>
-                <td style={{ padding: '10px' }}>{book.description}</td>
-                <td>
-                  <Link to={`/books/${book.id}`}>View</Link>
-                </td>
-              </tr>
-            ))
-          )}
-</tbody>
-
-      </table>
-    </div>
+        ))
+      )}
+    </tbody>
+  </table>
+</div>
   );
 }
 

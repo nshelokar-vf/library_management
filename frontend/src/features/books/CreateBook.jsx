@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { API_URL } from "../../constants";
 import './NewBook.css';
 
-function NewPostForm() {
+function CreateBook() {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [description, setDescription] = useState("");
@@ -12,11 +14,9 @@ function NewPostForm() {
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
-    console.log("Retrieved Token:", storedToken);
     if (storedToken) {
       setToken(storedToken);
     } else {
-      console.log("No token found. Redirecting to login.");
       navigate('/login');
     }
   }, [navigate]);
@@ -26,9 +26,6 @@ function NewPostForm() {
     const postData = { title, author, description };
 
     try {
-      console.log("Token being sent:", token);
-      console.log('API URL:', API_URL);
-      
       const response = await fetch(`${API_URL}`, {
         method: "POST",
         headers: {
@@ -37,19 +34,12 @@ function NewPostForm() {
         },
         body: JSON.stringify(postData)
       });
-      // debugger
-
-      console.log('Response status:', response.status);
-
       if (response.ok) {
         const { id } = await response.json();
         navigate(`/books/${id}`);
-      } else {
-        const errorText = await response.text();
-        console.log("An error occurred:", errorText);
       }
     } catch (error) {
-      console.error("An error occurred:", error);
+      toast.error(`Login error: ${error.message || error}`);
     }
   };
 
@@ -87,13 +77,13 @@ function NewPostForm() {
           />
         </div>
         <div className="form-group">
-          <button type="submit" className="submit-button">Create Title</button>
+          <button type="submit" className="submit-button">Create Book</button>
         </div>
-
         <Link to="/">Cancel</Link>
       </form>
+      <ToastContainer/>
     </div>
   );
 }
 
-export default NewPostForm;
+export default CreateBook;

@@ -8,20 +8,21 @@ const Logout =({setCurrUser})=>{
                     "authorization": localStorage.getItem("token")
                 },
             })
-            
-            const data=await response.json()
-            if(!response.ok) throw data.error
-            localStorage.removeItem("token")
-            window.localStorage.removeItem("isLoggedIn")
-            setCurrUser(null)
+            const data=await response.json();
+            if(!response.ok) throw data.error;
+            localStorage.removeItem("token");
+            window.localStorage.removeItem("isLoggedIn");
+            setCurrUser(null);
         } catch (error) {
-            console.log("error", error)
+            console.log("error", error);
         }
     }
+
     const handleClick=e=>{
-        e.preventDefault()
-         logout()
+        e.preventDefault();
+         logout();
     }
+
     return (
         <div>
             <input type="button" value='Logout' onClick={handleClick}/>

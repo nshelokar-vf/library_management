@@ -2,17 +2,14 @@ class Api::V1::BooksController < ApplicationController
   before_action :authenticate_user!
   before_action :set_book, only: %i[ show update destroy ]
   
-  
   def index
     @books = current_user.books
-
     render json: @books
   end
 
   def show
     render json: @book
   end
-
   
   def create
     @book = current_user.books.build(book_params)
@@ -23,7 +20,6 @@ class Api::V1::BooksController < ApplicationController
     end
   end
 
-  
   def update
     if @book.update(book_params)
       render json: @book
@@ -32,13 +28,11 @@ class Api::V1::BooksController < ApplicationController
     end
   end
 
-
   def destroy
     @book.destroy!
   end
 
   private
-   
     def set_book
       @book = current_user.books.find(params[:id])
     end
