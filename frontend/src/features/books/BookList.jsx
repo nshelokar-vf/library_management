@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { API_URL } from '../../constants';
 import { Link } from 'react-router-dom';
 
@@ -30,9 +30,6 @@ function BookList() {
     }
     loadBooks();
   }, []);
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
 
 return (
     <div style={{ padding: '20px' }}>
