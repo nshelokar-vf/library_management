@@ -1,32 +1,33 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { API_URL } from '../../constants';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-function EditBookForm() {
-  const [book, setBook] = useState(null);
-  const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState('');
-  const [description, setDescription] = useState('');
+function EditBook() {
+  const [book, setBook] = useState({ title: '', author: '', description: '' });
   const { id } = useParams();
-  const [, setLoading] = useState(true);
-  const [, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!id) {
+      toast.error("Invalid Book ID")
+      setLoading(false);
+      return;
+    }
     const fetchCurrentBook = async () => {
       try {
         const response = await fetch(`${API_URL}/${id}`);
         if (response.ok) {
           const json = await response.json();
           setBook(json);
-          setTitle(json.title);
-          setAuthor(json.author);
-          setDescription(json.description);
         } else {
-            throw response;
+          const errorData = await response.json();
+          throw new Error(errorData.message || 'An error occurred');
         }
         } catch (e) {
-            console.log("an error occurred");
+          toast.error(`An error occurred: ${e.message}`);
         } finally {
             setLoading(false);
         }
@@ -34,31 +35,32 @@ function EditBookForm() {
         fetchCurrentBook();
     }, [id]);
 
-  const handleSubmit = async (e) => {
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      setBook((prevBook) => ({
+        ...prevBook,
+        [name]: value
+      }));
+    };
+
+    const handleSubmit = async (e) => {
       e.preventDefault();
-      const updatedBook = {
-          ...book,
-          title,
-          author,
-          description
-      };
       try {
         const response = await fetch(`${API_URL}/${id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify(updatedBook)
+          body: JSON.stringify(book)
           });
           if (response.ok) {
-            const json = await response.json();
-            console.log("Success: ", json);
             navigate(`/books/${id}`);
           } else {
-              throw response;
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'An error occurred');
           }
         } catch (e) {
-          console.log("an error occurred", e);
+          toast.error(`An error occurred: ${e.message}`);
         }
     }
 
@@ -74,8 +76,8 @@ function EditBookForm() {
               <input
               type='text'
               id='book-title'
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              value={book.title}
+              onChange={handleChange}
               ></input>
               </div>
               <div>
@@ -84,8 +86,8 @@ function EditBookForm() {
                 <input
                 type='text'
                 id='book-author'
-                value={author}
-                onChange={(e) => setAuthor(e.target.value)}>
+                value={book.author}
+                onChange={handleChange}>
                 </input>
               </div>
               <div>
@@ -94,16 +96,17 @@ function EditBookForm() {
                 <input
                 type='text'
                 id='book-description'
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}>
+                value={book.description}
+                onChange={handleChange}>
                 </input>
                 </div>
                 <div>
                     <button type='submit'>Save</button>
                 </div>
           </form>
+          <ToastContainer />
       </div>
     )
 }
 
-export default EditBookForm
+export default EditBook
