@@ -1,4 +1,6 @@
+import './Logout.css'
 const Logout = ({ setCurrUser }) => {
+
   const logout = async () => {
     try {
       const response = await fetch("http://localhost:3000/logout", {
@@ -25,7 +27,7 @@ const Logout = ({ setCurrUser }) => {
 
   return (
     <div>
-      <input type="button" value='Logout' onClick={handleClick} />
+      <input type="button" value='Logout' onClick={handleClick} className='logout-button'/>
     </div>
   )
 }

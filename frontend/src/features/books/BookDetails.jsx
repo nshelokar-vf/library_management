@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { API_URL } from '../../constants';
+import './BookDetails.css'
 
 function BookDetails() {
   const [title, setTitle] = useState(null);
@@ -48,7 +49,7 @@ function BookDetails() {
       <h3>{title}</h3>
       <p>Author: {author}</p>
       <p>Description: {description}</p>
-      <Link to="/">Back to Books List</Link>
+      <Link to="/">See to Book List</Link>
       <ToastContainer />
     </div>
   )

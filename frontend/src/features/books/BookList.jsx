@@ -70,7 +70,7 @@ function BookList() {
       )}
     </tbody>
   </table>
-</div>
+  </div>
   );
 }
 

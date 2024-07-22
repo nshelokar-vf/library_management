@@ -1,8 +1,24 @@
+html, body, #root, .App {
+  height: 100%;
+  margin: 0;
+  width: 100%;
+  padding: 0;
+}
+
 #root {
-  max-width: 1280px;
+  height: 100%;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  background-image: url('https://images.squarespace-cdn.com/content/v1/5982090315d5dbb465d7082f/1663870286606-1H8IKMP7UFBVRIZBYHM7/Blue+Green+Piece.jpg');
+  color: black;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .logo {

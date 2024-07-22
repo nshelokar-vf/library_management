@@ -1,0 +1,13 @@
+div{
+  display: block;
+  padding: 10px;
+}
+
+div a{
+  padding: 10px;
+  color: white;
+}
+
+div a:hover{
+  color: darkturquoise;
+}
