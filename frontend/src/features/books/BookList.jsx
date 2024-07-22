@@ -39,27 +39,27 @@ function BookList() {
     loadBooks();
   }, []);
 
-return (
-  <div className="table-container">
-  <table className="table">
-    <thead>
-      <tr className="table-header">
-        <th>ID</th>
-        <th>Title</th>
-        <th>Author</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      {books.length === 0 ? (
-        <tr className="table-empty-row">
-          <td colSpan={5}>
-            No books available.
-          </td>
+  return (
+    <div className="table-container">
+    <table className="table">
+      <thead>
+        <tr className="table-header">
+          <th>ID</th>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Description</th>
         </tr>
-      ) : (
-        books.map((book) => (
-          <tr key={book.id} className="table-row">
+      </thead>
+      <tbody>
+        {books.length === 0 ? (
+          <tr className="table-empty-row">
+            <td colSpan={5}>
+              No books available.
+            </td>
+          </tr>
+        ) : (
+          books.map((book) => (
+            <tr key={book.id} className="table-row">
             <td>{book.id}</td>
             <td>{book.title}</td>
             <td>{book.author}</td>
