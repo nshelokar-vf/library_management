@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { API_URL } from "../../constants";
 
-function NewPostForm() {
+function NewBook() {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [description, setDescription] = useState("");
@@ -73,4 +73,4 @@ function NewPostForm() {
   );
 }
 
-export default NewPostForm;
+export default NewBook;

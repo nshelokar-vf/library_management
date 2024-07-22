@@ -1,16 +1,16 @@
 import BookList from "../features/books/BookList";
 import { Route, Routes } from "react-router-dom";
-import NewBookForm from "../features/books/NewBookForm";
+import NewBook from "../features/books/CreateBook";
 import BookDetails from "../features/books/BookDetails";
-import EditBookForm from "../features/books/EditBookForm";
+import EditBook from "../features/books/UpdateBook";
 
 function AppRoutes(){
   return(
     <Routes>
       <Route path="/" element={<BookList/>}/>
-      <Route path="/new" element={<NewBookForm/>}/>
+      <Route path="/new" element={<NewBook/>}/>
       <Route path="books/:id" element={<BookDetails/>}/>
-      <Route path="books/:id/edit" element={<EditBookForm/>}/>
+      <Route path="books/:id/edit" element={<EditBook/>}/>
     </Routes>
   )
 }
