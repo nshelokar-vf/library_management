@@ -7,7 +7,7 @@ function BookDetails() {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!id) {
@@ -27,10 +27,10 @@ function BookDetails() {
           throw new Error(`Error ${response.status}: ${errorText}`);
         }
       } catch (e) {
-        console.log(`${error}`);
+        console.log("An error occurred", e);
       }
     }
-    fetchCurrentBook()
+    fetchCurrentBook();
   }, [id]);
 
   const deleteBook = async () => {

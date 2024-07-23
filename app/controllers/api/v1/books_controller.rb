@@ -12,7 +12,6 @@ class Api::V1::BooksController < ApplicationController
 
   def create
     @book = Book.new(book_params)
-
     if @book.save
       render json: @book, status: :created, location: api_v1_book_url(@book)
     else

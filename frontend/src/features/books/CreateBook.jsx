@@ -11,6 +11,7 @@ function CreateBook() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const postData = { title,author, description };
+
     try {
       const response = await fetch(`${API_URL}`, {
         method: "POST",
@@ -23,6 +24,9 @@ function CreateBook() {
       if (response.ok) {
         const { id } = await response.json();
         navigate(`/books/${id}`);
+      } else {
+        const errorText = await response.text();
+        console.log("An error occurred:", errorText);
       }
     } catch (error) {
       console.error("An error occurred:", error);
