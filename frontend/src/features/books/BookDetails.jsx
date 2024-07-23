@@ -1,17 +1,20 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate} from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { API_URL } from '../../constants';
 import './BookDetails.css'
 
 function BookDetails() {
-  const [title, setTitle] = useState(null);
-  const [author, setAuthor] = useState(null);
-  const [description, setDescription] = useState(null);
+  const [book, setBook] = useState(null)
   const { id } = useParams();
+  const navigate = useNavigate()
 
   useEffect(() => {
+    if (!id) {
+      throw new Error('Authentication token not found');
+    }
+
     const fetchCurrentBook = async () => {
       const token = localStorage.getItem('token'); 
       if (!token) {
@@ -30,9 +33,7 @@ function BookDetails() {
         if (response.ok) {
           const json = await response.json();
           console.log('Response JSON:', json);
-          setTitle(json.title);       
-          setAuthor(json.author);
-          setDescription(json.description);       
+          setBook(json);      
         } else {
           const errorText = await response.text();
           throw new Error(`Error ${response.status}: ${errorText}`);
@@ -42,15 +43,34 @@ function BookDetails() {
       }
     }
     fetchCurrentBook()
-  }, [id])
+  }, [id]);
+
+  const deleteBook = async () => {
+    try {
+      const response = await fetch(`${API_URL}/${id}`, {
+        method: "DELETE"
+      });
+      if (response.ok) {
+        navigate('/');
+      } else {
+        const errorText = await response.text();
+        throw new Error(`Error ${response.status}: ${errorText}`);
+      }
+    } catch (e) {
+      console.log("An error occurred", e);
+    }
+  }
 
   return (
     <div>
-      <h3>{title}</h3>
-      <p>Author: {author}</p>
-      <p>Description: {description}</p>
-      <Link to="/">See to Book List</Link>
-      <ToastContainer />
+      <h3>{book.title}</h3>
+      <p>Author: {book.author}</p>
+      <p>Description: {book.description}</p>
+      <div className='post-links'>
+        <button onClick={deleteBook}>Delete</button>
+      </div>
+      <Link to="/">Back to Books List</Link>
+      <ToastContainer/>
     </div>
   )
 }
