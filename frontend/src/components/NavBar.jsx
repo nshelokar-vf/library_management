@@ -7,6 +7,8 @@ function NavBar(){
       <Link to="/new">New Book</Link>
     </nav>
   )
+  
 }
 
 export default NavBar
+

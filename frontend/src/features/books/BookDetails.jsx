@@ -28,11 +28,11 @@ function BookDetails() {
         })
         console.log('Response status:', response.status);
         if (response.ok) {
-          const json = await response.json()
+          const json = await response.json();
           console.log('Response JSON:', json);
-          setTitle(json.title)       
-          setAuthor(json.author)
-          setDescription(json.description)       
+          setTitle(json.title);       
+          setAuthor(json.author);
+          setDescription(json.description);       
         } else {
           const errorText = await response.text();
           throw new Error(`Error ${response.status}: ${errorText}`);

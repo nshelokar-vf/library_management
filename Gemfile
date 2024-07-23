@@ -39,7 +39,11 @@ gem 'devise'
 
 gem 'devise-jwt'
 
+gem 'warden-jwt_auth'
+
 gem 'pry'
+
+gem 'jwt'
 
 # 'dotenv-rails' is for storing secret key in ENV file
 gem 'dotenv-rails', groups: [:development, :test]
@@ -47,6 +51,7 @@ gem 'dotenv-rails', groups: [:development, :test]
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mswin mswin64 mingw x64_mingw ]
+  gem 'pry-rails'
 end
 
 group :development do
