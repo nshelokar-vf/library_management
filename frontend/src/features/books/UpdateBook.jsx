@@ -1,8 +1,9 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link} from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { API_URL } from '../../constants';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import './NewBook.css';
 
 function EditBook() {
   const [book, setBook] = useState({ title: '', author: '', description: '' });
@@ -18,15 +19,15 @@ function EditBook() {
     }
     const fetchCurrentBook = async () => {
       const token = localStorage.getItem('token') 
-            if (!token) {
-                console.error('Authentication token not found')
-            }
+        if (!token) {
+          console.error('Authentication token not found')
+        }
       try {
         const response = await fetch(`${API_URL}/${id}`,{
           headers: {
-              'Authorization': token, 
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
+            'Authorization': token, 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
           }
       })
         if (response.ok) {
@@ -55,10 +56,10 @@ function EditBook() {
 
     const handleSubmit = async (e) => {
       const token = localStorage.getItem('token') 
-            if (!token) {
-                console.error('Authentication token not found')
-                return
-            }
+        if (!token) {
+          console.error('Authentication token not found')
+          return
+        }
       e.preventDefault();
       try {
         const response = await fetch(`${API_URL}/${id}`, {
@@ -83,10 +84,10 @@ function EditBook() {
     if (!book) return <h3>Loading...</h3>
 
     return (
-      <div>
+      <div className="form-container" >
         <h3>Edit your book here</h3>
-          <form onSubmit={handleSubmit}>
-            <div>
+          <form onSubmit={handleSubmit} className="title-form">
+            <div className="form-group">
               <label htmlFor='book-title'>Title</label>
               <br/>
               <input
@@ -97,7 +98,7 @@ function EditBook() {
               onChange={handleChange}
               ></input>
               </div>
-              <div>
+              <div className="form-group">
                 <label htmlFor='book-author'>Author</label>
                 <br/>
                 <input
@@ -108,7 +109,7 @@ function EditBook() {
                 onChange={handleChange}>
                 </input>
               </div>
-              <div>
+              <div className="form-group">
                 <label htmlFor='book-description'>Description</label>
                 <br/>
                 <input
@@ -120,9 +121,10 @@ function EditBook() {
                 </input>
                 </div>
                 <div>
-                    <button type='submit'>Save</button>
+                    <button type='submit' className="submit-button">Save</button>
                 </div>
           </form>
+          <Link to="/">Back to Books List</Link>
           <ToastContainer />
       </div>
     )

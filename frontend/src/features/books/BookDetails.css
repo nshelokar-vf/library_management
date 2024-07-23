@@ -5,9 +5,10 @@ div{
 
 div a{
   padding: 10px;
-  color: white;
+  color: blue;
 }
 
 div a:hover{
   color: darkturquoise;
 }
+
