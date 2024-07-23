@@ -7,6 +7,7 @@ import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import CreateBook from "../features/books/CreateBook";
 import BookDetails from "../features/books/BookDetails";
 import BookList from "../features/books/BookList";
+import EditBook from "../features/books/UpdateBook";
 
 const User = () => {
   const [isUserLoggedIn, setUserLoggedIn] = useState(false);
@@ -24,6 +25,7 @@ const User = () => {
               <Route path="/" element={<BookList/>}/>
               <Route path="/new" element={<CreateBook/>}/>
               <Route path="books/:id" element={<BookDetails/>}/>
+              <Route path="books/:id/edit" element={<EditBook/>}/>
           </Routes>
           <Logout setCurrUser={setUserLoggedIn}/>
       </Router>

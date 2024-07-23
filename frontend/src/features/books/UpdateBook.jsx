@@ -17,8 +17,18 @@ function EditBook() {
       return;
     }
     const fetchCurrentBook = async () => {
+      const token = localStorage.getItem('token') 
+            if (!token) {
+                console.error('Authentication token not found')
+            }
       try {
-        const response = await fetch(`${API_URL}/${id}`);
+        const response = await fetch(`${API_URL}/${id}`,{
+          headers: {
+              'Authorization': token, 
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+          }
+      })
         if (response.ok) {
           const json = await response.json();
           setBook(json);
@@ -44,12 +54,18 @@ function EditBook() {
     };
 
     const handleSubmit = async (e) => {
+      const token = localStorage.getItem('token') 
+            if (!token) {
+                console.error('Authentication token not found')
+                return
+            }
       e.preventDefault();
       try {
         const response = await fetch(`${API_URL}/${id}`, {
           method: "PUT",
           headers: {
-            "Content-Type": "application/json"
+            'Authorization': token, 
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify(book)
           });
@@ -76,6 +92,7 @@ function EditBook() {
               <input
               type='text'
               id='book-title'
+              name='title'
               value={book.title}
               onChange={handleChange}
               ></input>
@@ -86,6 +103,7 @@ function EditBook() {
                 <input
                 type='text'
                 id='book-author'
+                name='author'
                 value={book.author}
                 onChange={handleChange}>
                 </input>
@@ -96,6 +114,7 @@ function EditBook() {
                 <input
                 type='text'
                 id='book-description'
+                name='description'
                 value={book.description}
                 onChange={handleChange}>
                 </input>

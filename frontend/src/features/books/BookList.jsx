@@ -65,6 +65,7 @@ function BookList() {
             <td>{book.author}</td>
             <td>{book.description}</td>
             <td><Link to={`/books/${book.id}`}>View</Link></td>
+            <td><Link to={`/books/${book.id}/edit`}>Edit</Link></td>
           </tr>
         ))
       )}
