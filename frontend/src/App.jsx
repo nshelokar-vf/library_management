@@ -1,23 +1,12 @@
-
 import './App.css'
-import AppRoutes from './components/AppRoutes'
-import {BrowserRouter as Router} from 'react-router-dom'
-import NavBar from './components/NavBar'
-function App() {
-  
+import User from './components/User'
 
+function App() {
   return (
-    <>
-     
-    <Router>
-      <div className='app'>
-        <h2>Book Library</h2>
-        <NavBar/>
-        <AppRoutes/>
-      </div>
-    </Router>
-  
-    </>
+    <div className='App'>
+    <h2>Book Library</h2>
+    <User/>
+    </div>
   )
 }
 
