@@ -28,23 +28,22 @@
   font-weight: bold;
 }
 
-.table-row td{
+.table-row td {
   padding: 20px;
   border: 1px solid #ddd;
 }
 
-.table-row td a{
+.table-row td a {
   color: white;
   transition: background-color 0.3s ease;
   font-weight: bold;
 }
 
 .table-row td a:hover {
-  color:powderblue
+  color: powderblue
 }
 
 .table-empty-row td {
   text-align: center;
   padding: 10px;
 }
-

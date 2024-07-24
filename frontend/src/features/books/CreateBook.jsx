@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { API_URL } from "../../constants";
-import './NewBook.css';
+import './newbook.css';
 
 function CreateBook() {
   const [title, setTitle] = useState("");
@@ -24,7 +24,7 @@ function CreateBook() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const postData = { title, author, description };
-    
+
     try {
       const response = await fetch(`${API_URL}`, {
         method: "POST",
@@ -81,7 +81,7 @@ function CreateBook() {
         </div>
         <Link to="/">Cancel</Link>
       </form>
-      <ToastContainer/>
+      <ToastContainer />
       <Link to="/">Back to Books List</Link>
 
     </div>

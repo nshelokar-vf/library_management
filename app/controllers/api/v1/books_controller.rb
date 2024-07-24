@@ -1,11 +1,10 @@
 class Api::V1::BooksController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_book, only: %i[ show update destroy ]
+  before_action :set_book, only: %i[show update destroy]
 
-  
   def index
-    @books = current_user.books
-    render json: @books
+    books = current_user.books
+    render json: books
   end
 
   def show
@@ -13,11 +12,11 @@ class Api::V1::BooksController < ApplicationController
   end
   
   def create
-    @book = current_user.books.build(book_params)
-    if @book.save
-      render json: @book, status: :created, location: api_v1_book_url(@book)
+    book = current_user.books.build(book_params)
+    if book.save
+      render json: book, status: :created, location: api_v1_book_url(book)
     else
-      render json: @book.errors, status: :unprocessable_entity
+      render json: book.errors, status: :unprocessable_entity
     end
   end
 

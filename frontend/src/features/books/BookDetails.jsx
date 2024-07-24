@@ -1,44 +1,39 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { API_URL } from '../../constants';
-import './BookDetails.css'
+import './bookdetails.css';
 
 function BookDetails() {
   const [book, setBook] = useState(null);
   const { id } = useParams();
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!id) {
-      setError('Invalid book ID.');
-      setLoading(false);
-      return;
+      toast.error("Id is incorrect");
     }
 
     const fetchCurrentBook = async () => {
-      const token = localStorage.getItem('token'); 
+      const token = localStorage.getItem('token');
       if (!token) {
         throw new Error('Authentication token not found');
       }
 
       try {
-        const response = await fetch(`${API_URL}/${id}`,{
+        const response = await fetch(`${API_URL}/${id}`, {
           headers: {
-            'Authorization':token,
+            'Authorization': token,
             'Content-Type': 'application/json',
             'Accept': 'application/json'
           }
-        })
+        });
         console.log('Response status:', response.status);
-
         if (response.ok) {
-          const book = await response.json();
-          setBook(book);
+          const json = await response.json();
+          console.log('Response JSON:', json);
+          setBook(json);
         } else {
           const errorText = await response.text();
           throw new Error(`Error ${response.status}: ${errorText}`);
@@ -47,13 +42,22 @@ function BookDetails() {
         toast.error(`Login error: ${e.message || e}`);
       }
     }
-    fetchCurrentBook()
+    fetchCurrentBook();
   }, [id]);
 
   const deleteBook = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Authentication token not found');
+    }
     try {
       const response = await fetch(`${API_URL}/${id}`, {
-        method: "DELETE"
+        method: "DELETE",
+        headers: {
+          'Authorization': token,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
       });
       if (response.ok) {
         navigate('/');
@@ -65,6 +69,8 @@ function BookDetails() {
       console.log("An error occurred", e);
     }
   }
+
+  if (!book) return <h3>Loading...</h3>
 
   return (
     <div>
