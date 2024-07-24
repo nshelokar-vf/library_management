@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
+import axios from 'axios'; 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { API_URL } from '../../constants';
@@ -14,32 +15,23 @@ function BookDetails() {
     if (!id) {
       toast.error("Id is incorrect");
     }
-
+    
     const fetchCurrentBook = async () => {
       const token = localStorage.getItem('token');
       if (!token) {
         throw new Error('Authentication token not found');
       }
-
       try {
-        const response = await fetch(`${API_URL}/${id}`, {
+        const response = await axios.get(`${API_URL}/${id}`, {
           headers: {
-            'Authorization': token,
+            'Authorization': token, // Ensure "Bearer " prefix is added
             'Content-Type': 'application/json',
             'Accept': 'application/json'
           }
         });
-        console.log('Response status:', response.status);
-        if (response.ok) {
-          const json = await response.json();
-          console.log('Response JSON:', json);
-          setBook(json);
-        } else {
-          const errorText = await response.text();
-          throw new Error(`Error ${response.status}: ${errorText}`);
-        }
+        setBook(response.data);
       } catch (e) {
-        toast.error(`Login error: ${e.message || e}`);
+        toast.error(`Error: ${e.response?.data?.message || e.message}`);
       }
     }
     fetchCurrentBook();

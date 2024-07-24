@@ -1,9 +1,10 @@
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { API_URL } from '../../constants';
+import axios from 'axios'; 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import './NewBook.css';
+import { API_URL } from '../../constants';
+import './newbook.css';
 
 function EditBook() {
   const [book, setBook] = useState({ title: '', author: '', description: '' });
@@ -23,22 +24,16 @@ function EditBook() {
         console.error('Authentication token not found');
       }
       try {
-        const response = await fetch(`${API_URL}/${id}`, {
+        const response = await axios.get(`${API_URL}/${id}`, {
           headers: {
-            'Authorization': token,
+            'Authorization': token, 
             'Content-Type': 'application/json',
             'Accept': 'application/json'
           }
         });
-        if (response.ok) {
-          const json = await response.json();
-          setBook(json);
-        } else {
-          const errorData = await response.json();
-          throw new Error(errorData.message || 'An error occurred');
-        }
-      } catch (e) {
-        toast.error(`An error occurred: ${e.message}`);
+        setBook(response.data);
+      } catch (error) {
+        toast.error(`An error occurred: ${error.response?.data?.message || error.message}`);
       } finally {
         setLoading(false);
       }

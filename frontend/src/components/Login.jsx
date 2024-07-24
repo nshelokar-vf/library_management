@@ -1,24 +1,17 @@
 import { useRef } from "react";
+import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import './Signup.css';
+import './signup.css';
 
 const Login = ({ setCurrUser, setShow }) => {
   const formRef = useRef();
   const login = async (userInfo, setCurrUser) => {
     const url = "http://localhost:3000/login";
     try {
-      const response = await fetch(url, {
-        method: "post",
-        headers: {
-          'content-type': 'application/json',
-          'accept': 'application/json'
-        },
-        body: JSON.stringify(userInfo)
-      });
-      const data = await response.json();
-      if (!response.ok) throw data.error;
-      const token = response.headers.get("Authorization");
+      const response = await axios.post(url, userInfo);
+      const data = response.data;
+      const token = response.headers.authorization;
       if (token) {
         localStorage.setItem("token", token);
         localStorage.setItem("isLoggedIn", true);
@@ -26,7 +19,7 @@ const Login = ({ setCurrUser, setShow }) => {
         setShow(false);
       }
     } catch (error) {
-      toast.error(`Login error: ${error.message || error}`);
+      toast.error(`Login error: ${error.response?.data?.error || error.message}`);
     }
   }
 

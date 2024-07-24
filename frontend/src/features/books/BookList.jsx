@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { API_URL } from '../../constants';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { API_URL } from '../../constants';
 import './booklist.css';
 
 function BookList() {
@@ -17,22 +18,15 @@ function BookList() {
         return;
       }
       try {
-        const response = await fetch(`${API_URL}`, {
+        const response = await axios.get(`${API_URL}`, {
           headers: {
+            "Authorization": token, 
             "Content-Type": "application/json",
-            "Authorization": token
           }
         });
-        if (response.ok) {
-          const book = await response.json();
-          setBooks(book);
-
-        } else {
-          const errorText = await response.text();
-          throw new Error(`Error ${response.status}: ${errorText}`);
-        }
+        setBooks(response.data);
       } catch (e) {
-        setError("An error occurred...");
+        setError(`An error occurred: ${e.response?.data?.message || e.message}`);
       } finally {
         setLoading(false);
       }

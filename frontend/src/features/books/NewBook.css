@@ -55,3 +55,11 @@
 .submit-button:hover {
   background-color: #0056b3;
 }
+
+.link{
+  color: darkcyan;
+}
+
+.link:hover{
+  color: #007BFF;
+}

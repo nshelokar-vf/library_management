@@ -1,22 +1,24 @@
+import axios from 'axios';
 import './logout.css';
 
 const Logout = ({ setCurrUser }) => {
   const logout = async () => {
     try {
-      const response = await fetch("http://localhost:3000/logout", {
-        method: "delete",
+      const response = await axios.delete("http://localhost:3000/logout", {
         headers: {
-          "content-type": "application/json",
-          "authorization": localStorage.getItem("token")
-        },
+          "Content-Type": "application/json",
+          "Authorization": localStorage.getItem("token")
+        }
       });
-      const data = await response.json();
-      if (!response.ok) throw data.error;
-      localStorage.removeItem("token");
-      window.localStorage.removeItem("isLoggedIn");
-      setCurrUser(null);
+      if (response.status === 200) { 
+        localStorage.removeItem("token");
+        localStorage.removeItem("isLoggedIn");
+        setCurrUser(null);
+      } else {
+        throw new Error("Logout failed with status: " + response.status);
+      }
     } catch (error) {
-      console.log("error", error);
+      console.error("Error during logout:", error.response ? error.response.data : error.message);
     }
   }
 

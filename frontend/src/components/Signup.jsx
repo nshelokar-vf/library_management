@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './signup.css';
@@ -8,20 +9,12 @@ const Signup = ({ setCurrUser, setShow }) => {
   const signup = async (userInfo, setCurrUser) => {
     const url = "http://localhost:3000/signup";
     try {
-      const response = await fetch(url, {
-        method: 'post',
-        headers: {
-          "content-type": 'application/json',
-          "accept": "application/json"
-        },
-        body: JSON.stringify(userInfo)
-      });
-      const data = await response.json();
-      if (!response.ok) throw data.error;
-      localStorage.setItem('token', response.headers.get("Authorization"));
+      const response = await axios.post(url, userInfo);
+      const data = response.data;
+      localStorage.setItem('token', response.headers["authorization"]);
       setCurrUser(data);
     } catch (error) {
-      toast.error(`Login error: ${error.message || error}`);
+      toast.error(`Signup error: ${error.response?.data?.error || error.message}`);
     }
   }
 
