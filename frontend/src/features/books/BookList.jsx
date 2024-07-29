@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { API_URL } from '../../constants';
-import './booklist.css';
+import './book_list.css';
 
-function BookList() {
+const BookList = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -13,7 +13,7 @@ function BookList() {
     async function loadBooks() {
       const token = localStorage.getItem("token");
       if (!token) {
-        setError("You need to sign in or sign up before continuing.-nupur");
+        setError("You need to sign in or sign up before continuing");
         setLoading(false);
         return;
       }

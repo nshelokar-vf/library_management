@@ -1,15 +1,17 @@
 import { useRef } from "react";
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './signup.css';
+import { BASE_URL } from "../constants";
 
 const Login = ({ setCurrUser, setShow }) => {
   const formRef = useRef();
   const login = async (userInfo, setCurrUser) => {
-    const url = "http://localhost:3000/login";
     try {
-      const response = await axios.post(url, userInfo);
+      const LOGIN_URL = `${BASE_URL}/login`;
+      const response = await axios.post(LOGIN_URL, userInfo);
       const data = response.data;
       const token = response.headers.authorization;
       if (token) {
@@ -51,7 +53,7 @@ const Login = ({ setCurrUser, setShow }) => {
         </div>
         <div className="form-group">
           <label>Password:</label>
-          <input type="password" name='password' placeholder="Password" required />
+          <input type="password" name="password" placeholder="Password" required />
         </div>
         <input type="submit" value="Login" className="submit-button" />
       </form>
@@ -62,5 +64,10 @@ const Login = ({ setCurrUser, setShow }) => {
     </div>
   )
 }
+
+Login.propTypes = {
+  setCurrUser: PropTypes.func.isRequired, 
+  setShow: PropTypes.func.isRequired      
+};
 
 export default Login

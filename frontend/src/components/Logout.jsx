@@ -1,10 +1,13 @@
 import axios from 'axios';
+import PropTypes from 'prop-types';
 import './logout.css';
+import { BASE_URL } from "../constants";
 
 const Logout = ({ setCurrUser }) => {
   const logout = async () => {
+    const LOGOUT_URL = `${BASE_URL}/logout`;
     try {
-      const response = await axios.delete("http://localhost:3000/logout", {
+        const response = await axios.delete(LOGOUT_URL, {
         headers: {
           "Content-Type": "application/json",
           "Authorization": localStorage.getItem("token")
@@ -33,5 +36,10 @@ const Logout = ({ setCurrUser }) => {
     </div>
   )
 }
+
+Logout.propTypes = {
+  setCurrUser: PropTypes.func.isRequired, 
+  setShow: PropTypes.func.isRequired      
+};
 
 export default Logout

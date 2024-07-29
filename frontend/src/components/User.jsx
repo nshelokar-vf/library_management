@@ -12,7 +12,7 @@ import NavBar from "./NavBar";
 const User = () => {
   const [isUserLoggedIn, setUserLoggedIn] = useState(false);
   useEffect(() => {
-    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
     setUserLoggedIn(isLoggedIn);
   }, []);
   const [show, setShow] = useState(true);

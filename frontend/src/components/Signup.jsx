@@ -1,17 +1,19 @@
 import { useRef } from "react";
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './signup.css';
+import { BASE_URL } from "../constants";
 
 const Signup = ({ setCurrUser, setShow }) => {
   const formRef = useRef();
   const signup = async (userInfo, setCurrUser) => {
-    const url = "http://localhost:3000/signup";
+    const SIGNUP_URL = `${BASE_URL}/signup`;
     try {
-      const response = await axios.post(url, userInfo);
+      const response = await axios.post(SIGNUP_URL, userInfo);
       const data = response.data;
-      localStorage.setItem('token', response.headers["authorization"]);
+      localStorage.setItem("token", response.headers["authorization"]);
       setCurrUser(data);
     } catch (error) {
       toast.error(`Signup error: ${error.response?.data?.error || error.message}`);
@@ -40,13 +42,13 @@ const Signup = ({ setCurrUser, setShow }) => {
       <form ref={formRef} onSubmit={handleSubmit} className="signup-form">
         <div className="form-group">
           <label>Email:</label>
-          <input type="email" name='email' placeholder="Email" required />
+          <input type="email" name="email" placeholder="Email" required />
         </div>
         <div className="form-group">
           <label>Password:</label>
           <input type="password" name='password' placeholder="Password" required />
         </div>
-        <input type='submit' value="Submit" className="submit-button" />
+        <input type="submit" value="Submit" className="submit-button" />
       </form>
       <div className="login-link">
         Already registered? <a href="#login" onClick={handleClick}>Login here</a>.
@@ -55,5 +57,10 @@ const Signup = ({ setCurrUser, setShow }) => {
     </div>
   )
 }
+
+Signup.propTypes = {
+  setCurrUser: PropTypes.func.isRequired, 
+  setShow: PropTypes.func.isRequired      
+};
 
 export default Signup

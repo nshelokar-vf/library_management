@@ -4,9 +4,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
 import { API_URL } from "../../constants";
-import './newbook.css';
+import './new_book.css';
 
-function CreateBook() {
+const CreateBook = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [description, setDescription] = useState("");

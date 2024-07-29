@@ -4,9 +4,9 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { API_URL } from '../../constants';
-import './bookdetails.css';
+import './book_details.css';
 
-function BookDetails() {
+const BookDetails = () => {
   const [book, setBook] = useState(null);
   const { id } = useParams();
   const navigate = useNavigate();
@@ -15,18 +15,18 @@ function BookDetails() {
     if (!id) {
       toast.error("Id is incorrect");
     }
-    
+
     const fetchCurrentBook = async () => {
       const token = localStorage.getItem('token');
       if (!token) {
-        throw new Error('Authentication token not found');
+        throw new Error("Authentication token not found");
       }
       try {
         const response = await axios.get(`${API_URL}/${id}`, {
           headers: {
-            'Authorization': token, // Ensure "Bearer " prefix is added
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
+            "Authorization": token, 
+            "Content-Type": "application/json",
+            "Accept": "application/json"
           }
         });
         setBook(response.data);
@@ -38,7 +38,7 @@ function BookDetails() {
   }, [id]);
 
   const deleteBook = async () => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (!token) {
       throw new Error('Authentication token not found');
     }
@@ -46,9 +46,9 @@ function BookDetails() {
       const response = await fetch(`${API_URL}/${id}`, {
         method: "DELETE",
         headers: {
-          'Authorization': token,
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          "Authorization": token,
+          "Content-Type": "application/json",
+          "Accept": "application/json"
         }
       });
       if (response.ok) {
@@ -69,7 +69,7 @@ function BookDetails() {
       <h3>{book.title}</h3>
       <p>Author: {book.author}</p>
       <p>Description: {book.description}</p>
-      <div className='post-links'>
+      <div className="post-links">
         <button onClick={deleteBook}>Delete</button>
       </div>
       <Link to="/">Back to Books List</Link>

@@ -4,9 +4,9 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { API_URL } from '../../constants';
-import './newbook.css';
+import './new_book.css';
 
-function EditBook() {
+const EditBook = () => {
   const [book, setBook] = useState({ title: '', author: '', description: '' });
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
@@ -83,12 +83,12 @@ function EditBook() {
       <h3>Edit your book here</h3>
       <form onSubmit={handleSubmit} className="title-form">
         <div className="form-group">
-          <label htmlFor='book-title'>Title</label>
+          <label htmlFor="book-title">Title</label>
           <br />
           <input
-            type='text'
-            id='book-title'
-            name='title'
+            type="text"
+            id="book-title"
+            name="title"
             value={book.title}
             onChange={handleChange}
           ></input>
@@ -97,26 +97,26 @@ function EditBook() {
           <label htmlFor='book-author'>Author</label>
           <br />
           <input
-            type='text'
-            id='book-author'
-            name='author'
+            type="text"
+            id="book-author"
+            name="author"
             value={book.author}
             onChange={handleChange}>
           </input>
         </div>
         <div className="form-group">
-          <label htmlFor='book-description'>Description</label>
+          <label htmlFor="book-description">Description</label>
           <br />
           <input
-            type='text'
-            id='book-description'
-            name='description'
+            type="text"
+            id="book-description"
+            name="description"
             value={book.description}
             onChange={handleChange}>
           </input>
         </div>
         <div>
-          <button type='submit' className="submit-button">Save</button>
+          <button type="submit" className="submit-button">Save</button>
         </div>
       </form>
       <Link to="/">Back to Books List</Link>
