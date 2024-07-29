@@ -1,55 +1,78 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import axios from 'axios'; 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { API_URL } from '../../constants';
-import './BookDetails.css'
+import './book_details.css';
 
-function BookDetails() {
-  const [title, setTitle] = useState(null);
-  const [author, setAuthor] = useState(null);
-  const [description, setDescription] = useState(null);
+const BookDetails = () => {
+  const [book, setBook] = useState(null);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchCurrentBook = async () => {
-      const token = localStorage.getItem('token'); 
-      if (!token) {
-        throw new Error('Authentication token not found');
-      }
+    if (!id) {
+      toast.error("Id is incorrect");
+    }
 
+    const fetchCurrentBook = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error("Authentication token not found");
+      }
       try {
-        const response = await fetch(`${API_URL}/${id}`,{
+        const response = await axios.get(`${API_URL}/${id}`, {
           headers: {
-            'Authorization':token,
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
+            "Authorization": token, 
+            "Content-Type": "application/json",
+            "Accept": "application/json"
           }
-        })
-        console.log('Response status:', response.status);
-        if (response.ok) {
-          const json = await response.json()
-          console.log('Response JSON:', json);
-          setTitle(json.title)       
-          setAuthor(json.author)
-          setDescription(json.description)       
-        } else {
-          const errorText = await response.text();
-          throw new Error(`Error ${response.status}: ${errorText}`);
-        }
+        });
+        setBook(response.data);
       } catch (e) {
-        toast.error(`Login error: ${e.message || e}`);
+        toast.error(`Error: ${e.response?.data?.message || e.message}`);
       }
     }
-    fetchCurrentBook()
-  }, [id])
+    fetchCurrentBook();
+  }, [id]);
+
+  const deleteBook = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      throw new Error('Authentication token not found');
+    }
+    try {
+      const response = await fetch(`${API_URL}/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Authorization": token,
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        }
+      });
+      if (response.ok) {
+        navigate('/');
+      } else {
+        const errorText = await response.text();
+        throw new Error(`Error ${response.status}: ${errorText}`);
+      }
+    } catch (e) {
+      console.log("An error occurred", e);
+    }
+  }
+
+  if (!book) return <h3>Loading...</h3>
 
   return (
     <div>
-      <h3>{title}</h3>
-      <p>Author: {author}</p>
-      <p>Description: {description}</p>
-      <Link to="/">See to Book List</Link>
+      <h3>{book.title}</h3>
+      <p>Author: {book.author}</p>
+      <p>Description: {book.description}</p>
+      <div className="post-links">
+        <button onClick={deleteBook}>Delete</button>
+      </div>
+      <Link to="/">Back to Books List</Link>
       <ToastContainer />
     </div>
   )

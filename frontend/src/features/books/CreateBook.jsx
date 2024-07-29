@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
 import { API_URL } from "../../constants";
-import './NewBook.css';
+import './new_book.css';
 
-function CreateBook() {
+const CreateBook = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [description, setDescription] = useState("");
@@ -24,22 +25,22 @@ function CreateBook() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const postData = { title, author, description };
-
     try {
-      const response = await fetch(`${API_URL}`, {
-        method: "POST",
+      const response = await axios.post(`${API_URL}`, postData, {
         headers: {
           "Content-Type": "application/json",
-          "Authorization": token
-        },
-        body: JSON.stringify(postData)
+          "Authorization":  token 
+        }
       });
-      if (response.ok) {
-        const { id } = await response.json();
+
+      if (response.status === 201) {
+        const { id } = response.data;
         navigate(`/books/${id}`);
+      } else {
+        toast.error(`Error: ${response.statusText}`);
       }
     } catch (error) {
-      toast.error(`Login error: ${error.message || error}`);
+      toast.error(`Error: ${error.response?.data?.message || error.message}`);
     }
   };
 
@@ -79,9 +80,9 @@ function CreateBook() {
         <div className="form-group">
           <button type="submit" className="submit-button">Create Book</button>
         </div>
-        <Link to="/">Cancel</Link>
+        <Link className="link" to="/">Cancel</Link>
       </form>
-      <ToastContainer/>
+      <ToastContainer />
     </div>
   );
 }
